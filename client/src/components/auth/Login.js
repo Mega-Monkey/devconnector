@@ -3,6 +3,9 @@ import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 
 export const Login = () => {
+  // hook
+  // formData is the object name
+  // setFormData is the function which will change formData
   const [formData, setFormData] = useState({
     email: "",
     password: "",

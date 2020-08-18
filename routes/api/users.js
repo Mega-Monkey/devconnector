@@ -11,6 +11,7 @@ const User = require("../../models/User");
 // @route   Post api/users
 // @desc    Register user
 // @access  Public
+
 router.post(
   "/",
   [
@@ -18,7 +19,7 @@ router.post(
     check("email", "Please include a valid email").isEmail(),
     check(
       "password",
-      "Please enter a password with 6 or more chracters"
+      "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 }),
   ],
   async (req, res) => {
@@ -32,6 +33,7 @@ router.post(
     try {
       // See if the user exists
       let user = await User.findOne({ email });
+
       if (user) {
         res.status(400).json({ error: [{ msg: "User already exists" }] });
       }

@@ -3,19 +3,27 @@ import { connect } from "react-redux";
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
+import { register } from "../../actions/auth";
 import PropTypes from "prop-types";
 
-export const Register = ({ setAlert }) => {
+export const Register = ({ setAlert, register }) => {
+  // hook
+  // formData is the object name
+  // setFormData is the function which will change formData
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     password2: "",
   });
-
+  // destucturing the object called formData
+  // name now === formData.name
+  // email === formData.email
+  // etc
   const { name, email, password, password2 } = formData;
 
   const onChange = (e) =>
+    // Spread operator.
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
@@ -23,7 +31,7 @@ export const Register = ({ setAlert }) => {
     if (password !== password2) {
       setAlert("passwords do not match", "danger");
     } else {
-      console.log("Success");
+      register({ name, email, password });
     }
   };
 
@@ -76,7 +84,6 @@ export const Register = ({ setAlert }) => {
               name="password2"
               value={password2}
               onChange={(e) => onChange(e)}
-              required
               minLength="6"
             />
           </div>
@@ -90,8 +97,10 @@ export const Register = ({ setAlert }) => {
   );
 };
 
+// ptfr is shorthand === PropTypes.func.isRequired,
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
 };
-
-export default connect(null, { setAlert })(Register);
+//imported action functions
+export default connect(null, { setAlert, register })(Register);
