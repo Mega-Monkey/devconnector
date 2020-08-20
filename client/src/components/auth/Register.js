@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
 import PropTypes from "prop-types";
 
-export const Register = ({ setAlert, register }) => {
+export const Register = ({ setAlert, register, isAuthenticated }) => {
   // hook
   // formData is the object name
   // setFormData is the function which will change formData
@@ -34,7 +34,9 @@ export const Register = ({ setAlert, register }) => {
       register({ name, email, password });
     }
   };
-
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
   return (
     <Fragment>
       <section className="container">
@@ -101,6 +103,12 @@ export const Register = ({ setAlert, register }) => {
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
 //imported action functions
-export default connect(null, { setAlert, register })(Register);
+export default connect(mapStateToProps, { setAlert, register })(Register);
